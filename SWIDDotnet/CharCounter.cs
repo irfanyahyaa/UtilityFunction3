@@ -36,7 +36,7 @@ public class CharCounter
             {
                 Console.Write("{0}={1}, ", pair.Key, pair.Value);
             }
-            
+
             currentCount++;
         }
     }

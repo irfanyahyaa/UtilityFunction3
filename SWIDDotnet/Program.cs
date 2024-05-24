@@ -4,6 +4,12 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        // number 1
+        string str1 = "We Always Mekar";
+        string str2 = "coding is fun";
+
+        CharCounter cc = new CharCounter();
+        cc.Counter(str1);
+        cc.Counter(str2);
     }
 }

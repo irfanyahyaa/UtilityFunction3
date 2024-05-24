@@ -7,6 +7,7 @@ public class CharCounter
         string[] loweredStrs = str.ToLower().Split(" ");
         Dictionary<char, int> chars = new Dictionary<char, int>();
 
+        // convert into dictionary data type, and make the key unique with the value of the sum of keys
         foreach (string s in loweredStrs)
         {
             foreach (char c in s)
@@ -18,6 +19,7 @@ public class CharCounter
             }
         }
 
+        // print the key and the value according to the requirements 
         Print(chars);
     }
 

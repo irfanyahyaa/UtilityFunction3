@@ -6,103 +6,81 @@ public class CharSorting
 {
     public void Sorting(string[] arrOfStr)
     {
-        StringBuilder upper = new StringBuilder();
-        StringBuilder lower = new StringBuilder();
+        StringBuilder uppercase = new StringBuilder();
+        StringBuilder lowercase = new StringBuilder();
 
-        // split upper and lower
+        // split into uppercase and lowercase
         foreach (string s in arrOfStr)
         {
             foreach (char c in s)
             {
                 if (Char.IsUpper(c))
                 {
-                    upper.Append(c);
+                    uppercase.Append(c);
                 }
                 else
                 {
-                    lower.Append(c);
+                    lowercase.Append(c);
                 }
             }
         }
 
-        char[] upperCharArray = upper.ToString().ToCharArray();
-        char[] lowerCharArray = lower.ToString().ToCharArray();
+        // convert into an array of char data type
+        char[] upperCharArray = uppercase.ToString().ToCharArray();
+        char[] lowerCharArray = lowercase.ToString().ToCharArray();
+        
+        // sorting depends on the alphabet
         Array.Sort(upperCharArray);
         Array.Sort(lowerCharArray);
 
-        // add key, value on dictionary
-        Dictionary<char, int> charsUpper = new Dictionary<char, int>();
-        Dictionary<char, int> charsLower = new Dictionary<char, int>();
+        // convert into dictionary data type, and make the key unique with the value of the sum of keys
+        Dictionary<char,int> charsUpper = ConvertToDictionary(upperCharArray);
+        Dictionary<char,int> charsLower = ConvertToDictionary(lowerCharArray);
 
-        foreach (char c in upperCharArray)
-        {
-            if (!charsUpper.TryAdd(c, 1))
-            {
-                charsUpper[c]++;
-            }
-        }
-
-        foreach (char c in lowerCharArray)
-        {
-            if (!charsLower.TryAdd(c, 1))
-            {
-                charsLower[c]++;
-            }
-        }
-
-        // sorting depend on value
+        // sorting depends on the value
         List<KeyValuePair<char, int>> charsUpperList = new List<KeyValuePair<char, int>>(charsUpper);
         List<KeyValuePair<char, int>> charsLowerList = new List<KeyValuePair<char, int>>(charsLower);
         List<KeyValuePair<char, int>> mergedList = new List<KeyValuePair<char, int>>();
 
-        for (var i = 0; i < charsUpperList.Count; i++)
-        {
-            for (var j = 0; j < charsUpperList.Count - i - 1; j++)
-            {
-                if (charsUpperList[j].Value < charsUpperList[j + 1].Value)
-                {
-                    (charsUpperList[j], charsUpperList[j + 1]) = (charsUpperList[j + 1], charsUpperList[j]);
-                }
-            }
-        }
-
+        SortUtil(charsUpperList);
         mergedList.AddRange(charsUpperList);
 
-        for (var i = 0; i < charsLowerList.Count; i++)
-        {
-            for (var j = 0; j < charsLowerList.Count - i - 1; j++)
-            {
-                if (charsLowerList[j].Value < charsLowerList[j + 1].Value)
-                {
-                    (charsLowerList[j], charsLowerList[j + 1]) = (charsLowerList[j + 1], charsLowerList[j]);
-                }
-            }
-        }
-
+        SortUtil(charsLowerList);
         mergedList.AddRange(charsLowerList);
 
-        for (var i = 0; i < mergedList.Count; i++)
-        {
-            for (var j = 0; j < mergedList.Count - i - 1; j++)
-            {
-                if (mergedList[j].Value < mergedList[j + 1].Value)
-                {
-                    (mergedList[j], mergedList[j + 1]) = (mergedList[j + 1], mergedList[j]);
-                }
-            }
-        }
+        SortUtil(mergedList);
         
+        // print only the key on the sorted list 
         Print(mergedList);
     }
 
     private Dictionary<char, int> ConvertToDictionary(char[] arrOfChar)
     {
-        return null;
+        Dictionary<char, int> result = new Dictionary<char, int>();
+
+        foreach (char c in arrOfChar)
+        {
+            if (!result.TryAdd(c, 1))
+            {
+                result[c]++;
+            }
+        }
+        
+        return result;
     }
 
-    private List<KeyValuePair<char, int>> SortUtil(Dictionary<char, int> dictionary)
+    private void SortUtil(List<KeyValuePair<char, int>> list)
     {
-        return null;
+        for (var i = 0; i < list.Count; i++)
+        {
+            for (var j = 0; j < list.Count - i - 1; j++)
+            {
+                if (list[j].Value < list[j + 1].Value)
+                {
+                    (list[j], list[j + 1]) = (list[j + 1], list[j]);
+                }
+            }
+        }
     }
 
     private void Print(List<KeyValuePair<char, int>> list)
